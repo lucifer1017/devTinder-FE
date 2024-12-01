@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
-import { addRequests } from "../utils/requestSlice";
+import { addRequests, removeRequest } from "../utils/requestSlice";
 import { useEffect } from "react";
 
 const Requests = () => {
@@ -14,8 +14,20 @@ const Requests = () => {
       const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-      console.log(res?.data?.connectionRequests);
+
       dispatch(addRequests(res?.data?.connectionRequests));
+    } catch (err) {
+      console.error(err?.response?.data);
+    }
+  };
+  const reviewRequests = async (status, id) => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/request/review/" + status + "/" + id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequest(id));
     } catch (err) {
       console.error(err?.response?.data);
     }
@@ -25,7 +37,12 @@ const Requests = () => {
   }, []);
 
   if (!requests) return;
-  if (requests.length === 0) return <div>No requests found</div>;
+  if (requests.length === 0)
+    return (
+      <div className="flex justify-center font-bold text-2xl my-10">
+        No requests found.
+      </div>
+    );
   return (
     <div className="text-center my-10">
       <h1 className="text-white font-bold text-3xl">Pending Requests</h1>
@@ -54,8 +71,18 @@ const Requests = () => {
               <p className="italic"> {about} </p>
             </div>
             <div>
-              <button className="btn mx-2 btn-primary">Accept</button>
-              <button className="btn mx-2 btn-secondary">Reject</button>
+              <button
+                className="btn mx-2 btn-primary"
+                onClick={() => reviewRequests("accepted", request._id)}
+              >
+                Accept
+              </button>
+              <button
+                className="btn mx-2 btn-secondary"
+                onClick={() => reviewRequests("rejected", request._id)}
+              >
+                Reject
+              </button>
             </div>
           </div>
         );
