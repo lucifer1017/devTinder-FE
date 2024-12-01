@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const UserCard = ({ user }) => {
   const { photoUrl, firstName, lastName, about, age, gender } = user;
-  console.log(user);
+
   return (
     <div className="flex justify-center my-12">
       <div className="card bg-base-300 w-96 shadow-xl ">
