@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 const UserCard = ({ user }) => {
-  const { photoUrl, firstName, lastName, about } = user;
+  const { photoUrl, firstName, lastName, about, age, gender } = user;
   console.log(user);
   return (
     <div className="flex justify-center my-12">
@@ -13,6 +13,11 @@ const UserCard = ({ user }) => {
             {firstName + " " + lastName}
           </h1>
           <p>{about}</p>
+          {age && gender && (
+            <p>
+              {age}, {gender.toUpperCase()}
+            </p>
+          )}
           <div className="card-actions justify-between my-4">
             <button className="btn btn-primary">Ignore</button>
             <button className="btn btn-secondary">Interested</button>

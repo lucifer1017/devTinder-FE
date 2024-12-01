@@ -25,9 +25,9 @@ const Login = () => {
 
       dispatch(addUser(res.data));
       navigate("/");
-    } catch (error) {
-      setError(error?.response?.data);
-      console.error(error);
+    } catch (err) {
+      setError(err?.response?.data);
+      console.error(err);
     }
   };
 
@@ -40,7 +40,7 @@ const Login = () => {
     <div className="flex justify-center mt-12">
       <div className="card bg-base-300 w-96 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center">Login</h2>
+          <h2 className="card-title justify-center">Welcome</h2>
           <div>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
