@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
@@ -11,7 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const userData = useSelector((store) => store.user);
   const handleLogin = async () => {
     try {
       const res = await axios.post(
@@ -31,6 +31,11 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (userData) {
+      navigate("/");
+    }
+  }, [userData, navigate]);
   return (
     <div className="flex justify-center mt-12">
       <div className="card bg-base-300 w-96 shadow-xl">
